@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_browse_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity2"
+    tools:deviceIds="tv"
+    tools:ignore="MergeRootFrame">
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="382dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/goblin_one"
+        android:text="  Your    Daily   Weather   Updates"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/Monday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="76dp"
+        android:layout_marginBottom="36dp"
+        android:fontFamily="@font/goblin_one"
+        android:text="Monday"
+        app:layout_constraintBottom_toTopOf="@+id/Tuesday"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <TextView
+        android:id="@+id/Tuesday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="311dp"
+        android:layout_marginBottom="49dp"
+        android:fontFamily="@font/goblin_one"
+        android:text="Tuesday"
+        app:layout_constraintBottom_toTopOf="@+id/Wednesday"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Monday" />
+
+    <TextView
+        android:id="@+id/Wednesday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:layout_marginEnd="280dp"
+        android:layout_marginBottom="46dp"
+        android:fontFamily="@font/goblin_one"
+        android:text="Wednesday"
+        app:layout_constraintBottom_toTopOf="@+id/Thursday"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Tuesday" />
+
+    <TextView
+        android:id="@+id/Thursday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:layout_marginEnd="299dp"
+        android:layout_marginBottom="30dp"
+        android:fontFamily="@font/goblin_one"
+        android:text="Thursday"
+        app:layout_constraintBottom_toTopOf="@+id/Friday"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Wednesday" />
+
+    <TextView
+        android:id="@+id/Friday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:layout_marginEnd="329dp"
+        android:layout_marginBottom="31dp"
+        android:fontFamily="@font/goblin_one"
+        android:text="Friday"
+        app:layout_constraintBottom_toTopOf="@+id/Saturday"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Thursday" />
+
+    <TextView
+        android:id="@+id/Saturday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="301dp"
+        android:layout_marginBottom="13dp"
+        android:fontFamily="@font/goblin_one"
+        android:text="Saturday"
+        app:layout_constraintBottom_toTopOf="@+id/Sunday"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Friday" />
+
+    <TextView
+        android:id="@+id/Sunday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="320dp"
+        android:fontFamily="@font/goblin_one"
+        android:text="Sunday"
+        app:layout_constraintBottom_toTopOf="@+id/AveTempButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Saturday" />
+
+    <EditText
+        android:id="@+id/editTextNumber8"
+        android:layout_width="61dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="217dp"
+        android:layout_marginTop="59dp"
+        android:layout_marginEnd="36dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/editTextNumber9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Monday"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <EditText
+        android:id="@+id/editTextNumber9"
+        android:layout_width="63dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="211dp"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="26dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/editTextNumber10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Tuesday"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNumber8" />
+
+    <EditText
+        android:id="@+id/editTextNumber10"
+        android:layout_width="68dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="176dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="25dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/editTextNumber11"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Wednesday"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNumber9" />
+
+    <EditText
+        android:id="@+id/editTextNumber11"
+        android:layout_width="67dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="196dp"
+        android:layout_marginEnd="35dp"
+        android:layout_marginBottom="15dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/editTextNumber12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Thursday"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNumber10" />
+
+    <EditText
+        android:id="@+id/editTextNumber12"
+        android:layout_width="66dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="226dp"
+        android:layout_marginEnd="37dp"
+        android:layout_marginBottom="10dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/editTextNumber13"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Friday"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNumber11" />
+
+    <EditText
+        android:id="@+id/editTextNumber13"
+        android:layout_width="72dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="191dp"
+        android:layout_marginEnd="37dp"
+        android:layout_marginBottom="10dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/editTextNumber14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Saturday"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNumber12" />
+
+    <EditText
+        android:id="@+id/editTextNumber14"
+        android:layout_width="70dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="211dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="39dp"
+        android:layout_marginBottom="209dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Sunday"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNumber13" />
+
+    <Button
+        android:id="@+id/AveTempButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginEnd="303dp"
+        android:layout_marginBottom="131dp"
+        android:text="Check Ave Temp"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Sunday" />
+
+    <Button
+        android:id="@+id/ExitButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="37dp"
+        android:layout_marginBottom="27dp"
+        android:text="Exit App"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/editTextNumber16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/AveTempButton" />
+
+    <EditText
+        android:id="@+id/editTextNumber15"
+        android:layout_width="74dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="175dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="39dp"
+        android:layout_marginBottom="131dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/AveTempButton"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNumber14" />
+
+    <EditText
+        android:id="@+id/editTextNumber16"
+        android:layout_width="76dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="194dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginEnd="39dp"
+        android:layout_marginBottom="55dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ExitButton2"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNumber15" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

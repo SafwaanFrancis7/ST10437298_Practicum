@@ -1,0 +1,240 @@
+<html>
+<head>
+<title>VideoDetailsFragment.kt</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #629755; font-style: italic;}
+.s3 { color: #6a8759;}
+.s4 { color: #6897bb;}
+.s5 { color: #808080;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+VideoDetailsFragment.kt</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.example.weatherapp</span>
+
+<span class="s1">import android.content.Context</span>
+<span class="s1">import android.content.Intent</span>
+<span class="s1">import android.graphics.Bitmap</span>
+<span class="s1">import android.os.Bundle</span>
+<span class="s1">import android.graphics.drawable.Drawable</span>
+<span class="s1">import androidx.leanback.app.DetailsSupportFragment</span>
+<span class="s1">import androidx.leanback.app.DetailsSupportFragmentBackgroundController</span>
+<span class="s1">import androidx.leanback.widget.Action</span>
+<span class="s1">import androidx.leanback.widget.ArrayObjectAdapter</span>
+<span class="s1">import androidx.leanback.widget.ClassPresenterSelector</span>
+<span class="s1">import androidx.leanback.widget.DetailsOverviewRow</span>
+<span class="s1">import androidx.leanback.widget.FullWidthDetailsOverviewRowPresenter</span>
+<span class="s1">import androidx.leanback.widget.FullWidthDetailsOverviewSharedElementHelper</span>
+<span class="s1">import androidx.leanback.widget.HeaderItem</span>
+<span class="s1">import androidx.leanback.widget.ImageCardView</span>
+<span class="s1">import androidx.leanback.widget.ListRow</span>
+<span class="s1">import androidx.leanback.widget.ListRowPresenter</span>
+<span class="s1">import androidx.leanback.widget.OnActionClickedListener</span>
+<span class="s1">import androidx.leanback.widget.OnItemViewClickedListener</span>
+<span class="s1">import androidx.leanback.widget.Presenter</span>
+<span class="s1">import androidx.leanback.widget.Row</span>
+<span class="s1">import androidx.leanback.widget.RowPresenter</span>
+<span class="s1">import androidx.core.app.ActivityOptionsCompat</span>
+<span class="s1">import androidx.core.content.ContextCompat</span>
+<span class="s1">import android.util.Log</span>
+<span class="s1">import android.widget.Toast</span>
+
+<span class="s1">import com.bumptech.glide.Glide</span>
+<span class="s1">import com.bumptech.glide.request.target.SimpleTarget</span>
+<span class="s1">import com.bumptech.glide.request.transition.Transition</span>
+
+<span class="s1">import java.util.Collections</span>
+
+<span class="s2">/**</span>
+ <span class="s2">* A wrapper fragment for leanback details screens.</span>
+ <span class="s2">* It shows a detailed view of video and its metadata plus related videos.</span>
+ <span class="s2">*/</span>
+<span class="s0">class </span><span class="s1">VideoDetailsFragment : DetailsSupportFragment() {</span>
+
+    <span class="s1">private </span><span class="s0">var </span><span class="s1">mSelectedMovie: Movie? = </span><span class="s0">null</span>
+
+    <span class="s1">private lateinit </span><span class="s0">var </span><span class="s1">mDetailsBackground: DetailsSupportFragmentBackgroundController</span>
+    <span class="s1">private lateinit </span><span class="s0">var </span><span class="s1">mPresenterSelector: ClassPresenterSelector</span>
+    <span class="s1">private lateinit </span><span class="s0">var </span><span class="s1">mAdapter: ArrayObjectAdapter</span>
+
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onCreate(savedInstanceState: Bundle?) {</span>
+        <span class="s1">Log.d(TAG</span><span class="s0">, </span><span class="s3">&quot;onCreate DetailsFragment&quot;</span><span class="s1">)</span>
+        <span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span>
+
+        <span class="s1">mDetailsBackground = DetailsSupportFragmentBackgroundController(</span><span class="s0">this</span><span class="s1">)</span>
+
+        <span class="s1">mSelectedMovie = activity!!.intent.getSerializableExtra(DetailsActivity.MOVIE) </span><span class="s0">as </span><span class="s1">Movie</span>
+        <span class="s0">if </span><span class="s1">(mSelectedMovie != </span><span class="s0">null</span><span class="s1">) {</span>
+            <span class="s1">mPresenterSelector = ClassPresenterSelector()</span>
+            <span class="s1">mAdapter = ArrayObjectAdapter(mPresenterSelector)</span>
+            <span class="s1">setupDetailsOverviewRow()</span>
+            <span class="s1">setupDetailsOverviewRowPresenter()</span>
+            <span class="s1">setupRelatedMovieListRow()</span>
+            <span class="s1">adapter = mAdapter</span>
+            <span class="s1">initializeBackground(mSelectedMovie)</span>
+            <span class="s1">onItemViewClickedListener = ItemViewClickedListener()</span>
+        <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+            <span class="s0">val </span><span class="s1">intent = Intent(context!!</span><span class="s0">, </span><span class="s1">MainActivity2::</span><span class="s0">class</span><span class="s1">.java)</span>
+            <span class="s1">startActivity(intent)</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s1">private </span><span class="s0">fun </span><span class="s1">initializeBackground(movie: Movie?) {</span>
+        <span class="s1">mDetailsBackground.enableParallax()</span>
+        <span class="s1">Glide.with(context!!)</span>
+            <span class="s1">.asBitmap()</span>
+            <span class="s1">.centerCrop()</span>
+            <span class="s1">.error(R.drawable.default_background)</span>
+            <span class="s1">.load(movie?.backgroundImageUrl)</span>
+            <span class="s1">.into&lt;SimpleTarget&lt;Bitmap&gt;&gt;(</span><span class="s0">object </span><span class="s1">: SimpleTarget&lt;Bitmap&gt;() {</span>
+                <span class="s1">override </span><span class="s0">fun </span><span class="s1">onResourceReady(</span>
+                    <span class="s1">bitmap: Bitmap</span><span class="s0">,</span>
+                    <span class="s1">transition: Transition&lt;</span><span class="s0">in </span><span class="s1">Bitmap&gt;?</span>
+                <span class="s1">) {</span>
+                    <span class="s1">mDetailsBackground.coverBitmap = bitmap</span>
+                    <span class="s1">mAdapter.notifyArrayItemRangeChanged(</span><span class="s4">0</span><span class="s0">, </span><span class="s1">mAdapter.size())</span>
+                <span class="s1">}</span>
+            <span class="s1">})</span>
+    <span class="s1">}</span>
+
+    <span class="s1">private </span><span class="s0">fun </span><span class="s1">setupDetailsOverviewRow() {</span>
+        <span class="s1">Log.d(TAG</span><span class="s0">, </span><span class="s3">&quot;doInBackground: &quot; </span><span class="s1">+ mSelectedMovie?.toString())</span>
+        <span class="s0">val </span><span class="s1">row = DetailsOverviewRow(mSelectedMovie)</span>
+        <span class="s1">row.imageDrawable = ContextCompat.getDrawable(context!!</span><span class="s0">, </span><span class="s1">R.drawable.default_background)</span>
+        <span class="s0">val </span><span class="s1">width = convertDpToPixel(context!!</span><span class="s0">, </span><span class="s1">DETAIL_THUMB_WIDTH)</span>
+        <span class="s0">val </span><span class="s1">height = convertDpToPixel(context!!</span><span class="s0">, </span><span class="s1">DETAIL_THUMB_HEIGHT)</span>
+        <span class="s1">Glide.with(context!!)</span>
+            <span class="s1">.load(mSelectedMovie?.cardImageUrl)</span>
+            <span class="s1">.centerCrop()</span>
+            <span class="s1">.error(R.drawable.default_background)</span>
+            <span class="s1">.into&lt;SimpleTarget&lt;Drawable&gt;&gt;(</span><span class="s0">object </span><span class="s1">: SimpleTarget&lt;Drawable&gt;(width</span><span class="s0">, </span><span class="s1">height) {</span>
+                <span class="s1">override </span><span class="s0">fun </span><span class="s1">onResourceReady(</span>
+                    <span class="s1">drawable: Drawable</span><span class="s0">,</span>
+                    <span class="s1">transition: Transition&lt;</span><span class="s0">in </span><span class="s1">Drawable&gt;?</span>
+                <span class="s1">) {</span>
+                    <span class="s1">Log.d(TAG</span><span class="s0">, </span><span class="s3">&quot;details overview card image url ready: &quot; </span><span class="s1">+ drawable)</span>
+                    <span class="s1">row.imageDrawable = drawable</span>
+                    <span class="s1">mAdapter.notifyArrayItemRangeChanged(</span><span class="s4">0</span><span class="s0">, </span><span class="s1">mAdapter.size())</span>
+                <span class="s1">}</span>
+            <span class="s1">})</span>
+
+        <span class="s0">val </span><span class="s1">actionAdapter = ArrayObjectAdapter()</span>
+
+        <span class="s1">actionAdapter.add(</span>
+            <span class="s1">Action(</span>
+                <span class="s1">ACTION_WATCH_TRAILER</span><span class="s0">,</span>
+                <span class="s1">resources.getString(R.string.watch_trailer_1)</span><span class="s0">,</span>
+                <span class="s1">resources.getString(R.string.watch_trailer_2)</span>
+            <span class="s1">)</span>
+        <span class="s1">)</span>
+        <span class="s1">actionAdapter.add(</span>
+            <span class="s1">Action(</span>
+                <span class="s1">ACTION_RENT</span><span class="s0">,</span>
+                <span class="s1">resources.getString(R.string.rent_1)</span><span class="s0">,</span>
+                <span class="s1">resources.getString(R.string.rent_2)</span>
+            <span class="s1">)</span>
+        <span class="s1">)</span>
+        <span class="s1">actionAdapter.add(</span>
+            <span class="s1">Action(</span>
+                <span class="s1">ACTION_BUY</span><span class="s0">,</span>
+                <span class="s1">resources.getString(R.string.buy_1)</span><span class="s0">,</span>
+                <span class="s1">resources.getString(R.string.buy_2)</span>
+            <span class="s1">)</span>
+        <span class="s1">)</span>
+        <span class="s1">row.actionsAdapter = actionAdapter</span>
+
+        <span class="s1">mAdapter.add(row)</span>
+    <span class="s1">}</span>
+
+    <span class="s1">private </span><span class="s0">fun </span><span class="s1">setupDetailsOverviewRowPresenter() {</span>
+        <span class="s5">// Set detail background.</span>
+        <span class="s0">val </span><span class="s1">detailsPresenter = FullWidthDetailsOverviewRowPresenter(DetailsDescriptionPresenter())</span>
+        <span class="s1">detailsPresenter.backgroundColor =</span>
+            <span class="s1">ContextCompat.getColor(context!!</span><span class="s0">, </span><span class="s1">R.color.selected_background)</span>
+
+        <span class="s5">// Hook up transition element.</span>
+        <span class="s0">val </span><span class="s1">sharedElementHelper = FullWidthDetailsOverviewSharedElementHelper()</span>
+        <span class="s1">sharedElementHelper.setSharedElementEnterTransition(</span>
+            <span class="s1">activity</span><span class="s0">, </span><span class="s1">DetailsActivity.SHARED_ELEMENT_NAME</span>
+        <span class="s1">)</span>
+        <span class="s1">detailsPresenter.setListener(sharedElementHelper)</span>
+        <span class="s1">detailsPresenter.isParticipatingEntranceTransition = </span><span class="s0">true</span>
+
+        <span class="s1">detailsPresenter.onActionClickedListener = OnActionClickedListener { action -&gt;</span>
+            <span class="s0">if </span><span class="s1">(action.id == ACTION_WATCH_TRAILER) {</span>
+                <span class="s0">val </span><span class="s1">intent = Intent(context!!</span><span class="s0">, </span><span class="s1">PlaybackActivity::</span><span class="s0">class</span><span class="s1">.java)</span>
+                <span class="s1">intent.putExtra(DetailsActivity.MOVIE</span><span class="s0">, </span><span class="s1">mSelectedMovie)</span>
+                <span class="s1">startActivity(intent)</span>
+            <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                <span class="s1">Toast.makeText(context!!</span><span class="s0">, </span><span class="s1">action.toString()</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+        <span class="s1">mPresenterSelector.addClassPresenter(DetailsOverviewRow::</span><span class="s0">class</span><span class="s1">.java</span><span class="s0">, </span><span class="s1">detailsPresenter)</span>
+    <span class="s1">}</span>
+
+    <span class="s1">private </span><span class="s0">fun </span><span class="s1">setupRelatedMovieListRow() {</span>
+        <span class="s0">val </span><span class="s1">subcategories = arrayOf(getString(R.string.related_movies))</span>
+        <span class="s0">val </span><span class="s1">list = MovieList.list</span>
+
+        <span class="s1">Collections.shuffle(list)</span>
+        <span class="s0">val </span><span class="s1">listRowAdapter = ArrayObjectAdapter(CardPresenter())</span>
+        <span class="s0">for </span><span class="s1">(j </span><span class="s0">in </span><span class="s4">0 </span><span class="s1">until NUM_COLS) {</span>
+            <span class="s1">listRowAdapter.add(list[j % </span><span class="s4">5</span><span class="s1">])</span>
+        <span class="s1">}</span>
+
+        <span class="s0">val </span><span class="s1">header = HeaderItem(</span><span class="s4">0</span><span class="s0">, </span><span class="s1">subcategories[</span><span class="s4">0</span><span class="s1">])</span>
+        <span class="s1">mAdapter.add(ListRow(header</span><span class="s0">, </span><span class="s1">listRowAdapter))</span>
+        <span class="s1">mPresenterSelector.addClassPresenter(ListRow::</span><span class="s0">class</span><span class="s1">.java</span><span class="s0">, </span><span class="s1">ListRowPresenter())</span>
+    <span class="s1">}</span>
+
+    <span class="s1">private </span><span class="s0">fun </span><span class="s1">convertDpToPixel(context: Context</span><span class="s0">, </span><span class="s1">dp: Int): Int {</span>
+        <span class="s0">val </span><span class="s1">density = context.applicationContext.resources.displayMetrics.density</span>
+        <span class="s0">return </span><span class="s1">Math.round(dp.toFloat() * density)</span>
+    <span class="s1">}</span>
+
+    <span class="s1">private inner </span><span class="s0">class </span><span class="s1">ItemViewClickedListener : OnItemViewClickedListener {</span>
+        <span class="s1">override </span><span class="s0">fun </span><span class="s1">onItemClicked(</span>
+            <span class="s1">itemViewHolder: Presenter.ViewHolder?</span><span class="s0">,</span>
+            <span class="s1">item: Any?</span><span class="s0">,</span>
+            <span class="s1">rowViewHolder: RowPresenter.ViewHolder</span><span class="s0">,</span>
+            <span class="s1">row: Row</span>
+        <span class="s1">) {</span>
+            <span class="s0">if </span><span class="s1">(item </span><span class="s0">is </span><span class="s1">Movie) {</span>
+                <span class="s1">Log.d(TAG</span><span class="s0">, </span><span class="s3">&quot;Item: &quot; </span><span class="s1">+ item.toString())</span>
+                <span class="s0">val </span><span class="s1">intent = Intent(context!!</span><span class="s0">, </span><span class="s1">DetailsActivity::</span><span class="s0">class</span><span class="s1">.java)</span>
+                <span class="s1">intent.putExtra(resources.getString(R.string.movie)</span><span class="s0">, </span><span class="s1">mSelectedMovie)</span>
+
+                <span class="s0">val </span><span class="s1">bundle =</span>
+                    <span class="s1">ActivityOptionsCompat.makeSceneTransitionAnimation(</span>
+                        <span class="s1">activity!!</span><span class="s0">,</span>
+                        <span class="s1">(itemViewHolder?.view </span><span class="s0">as </span><span class="s1">ImageCardView).mainImageView</span><span class="s0">,</span>
+                        <span class="s1">DetailsActivity.SHARED_ELEMENT_NAME</span>
+                    <span class="s1">)</span>
+                        <span class="s1">.toBundle()</span>
+                <span class="s1">startActivity(intent</span><span class="s0">, </span><span class="s1">bundle)</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s1">companion </span><span class="s0">object </span><span class="s1">{</span>
+        <span class="s1">private </span><span class="s0">val </span><span class="s1">TAG = </span><span class="s3">&quot;VideoDetailsFragment&quot;</span>
+
+        <span class="s1">private </span><span class="s0">val </span><span class="s1">ACTION_WATCH_TRAILER = </span><span class="s4">1L</span>
+        <span class="s1">private </span><span class="s0">val </span><span class="s1">ACTION_RENT = </span><span class="s4">2L</span>
+        <span class="s1">private </span><span class="s0">val </span><span class="s1">ACTION_BUY = </span><span class="s4">3L</span>
+
+        <span class="s1">private </span><span class="s0">val </span><span class="s1">DETAIL_THUMB_WIDTH = </span><span class="s4">274</span>
+        <span class="s1">private </span><span class="s0">val </span><span class="s1">DETAIL_THUMB_HEIGHT = </span><span class="s4">274</span>
+
+        <span class="s1">private </span><span class="s0">val </span><span class="s1">NUM_COLS = </span><span class="s4">10</span>
+    <span class="s1">}</span>
+<span class="s1">}</span></pre>
+</body>
+</html>

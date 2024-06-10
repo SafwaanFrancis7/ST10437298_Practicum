@@ -1,0 +1,96 @@
+<html>
+<head>
+<title>BrowseErrorActivity.kt</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #629755; font-style: italic;}
+.s3 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+BrowseErrorActivity.kt</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.example.weatherapp</span>
+
+<span class="s1">import android.os.Bundle</span>
+<span class="s1">import android.os.Handler</span>
+<span class="s1">import android.os.Looper</span>
+<span class="s1">import android.view.Gravity</span>
+<span class="s1">import android.view.LayoutInflater</span>
+<span class="s1">import android.view.View</span>
+<span class="s1">import android.view.ViewGroup</span>
+<span class="s1">import android.widget.FrameLayout</span>
+<span class="s1">import android.widget.ProgressBar</span>
+<span class="s1">import androidx.fragment.app.Fragment</span>
+<span class="s1">import androidx.fragment.app.FragmentActivity</span>
+
+<span class="s2">/**</span>
+ <span class="s2">* BrowseErrorActivity shows how to use ErrorFragment.</span>
+ <span class="s2">*/</span>
+<span class="s0">class </span><span class="s1">BrowseErrorActivity : FragmentActivity() {</span>
+
+    <span class="s1">private lateinit </span><span class="s0">var </span><span class="s1">mErrorFragment: ErrorFragment</span>
+    <span class="s1">private lateinit </span><span class="s0">var </span><span class="s1">mSpinnerFragment: SpinnerFragment</span>
+
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onCreate(savedInstanceState: Bundle?) {</span>
+        <span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span>
+        <span class="s1">setContentView(R.layout.activity_main2)</span>
+        <span class="s0">if </span><span class="s1">(savedInstanceState == </span><span class="s0">null</span><span class="s1">) {</span>
+            <span class="s1">getSupportFragmentManager().beginTransaction()</span>
+                <span class="s1">.replace(R.id.main_browse_fragment</span><span class="s0">, </span><span class="s1">MainFragment())</span>
+                <span class="s1">.commitNow()</span>
+        <span class="s1">}</span>
+        <span class="s1">testError()</span>
+    <span class="s1">}</span>
+
+    <span class="s1">private </span><span class="s0">fun </span><span class="s1">testError() {</span>
+        <span class="s1">mErrorFragment = ErrorFragment()</span>
+        <span class="s1">supportFragmentManager</span>
+            <span class="s1">.beginTransaction()</span>
+            <span class="s1">.add(R.id.main_browse_fragment</span><span class="s0">, </span><span class="s1">mErrorFragment)</span>
+            <span class="s1">.commit()</span>
+
+        <span class="s1">mSpinnerFragment = SpinnerFragment()</span>
+        <span class="s1">supportFragmentManager</span>
+            <span class="s1">.beginTransaction()</span>
+            <span class="s1">.add(R.id.main_browse_fragment</span><span class="s0">, </span><span class="s1">mSpinnerFragment)</span>
+            <span class="s1">.commit()</span>
+
+        <span class="s0">val </span><span class="s1">handler = Handler(Looper.myLooper()!!)</span>
+        <span class="s1">handler.postDelayed({</span>
+            <span class="s1">supportFragmentManager</span>
+                <span class="s1">.beginTransaction()</span>
+                <span class="s1">.remove(mSpinnerFragment)</span>
+                <span class="s1">.commit()</span>
+            <span class="s1">mErrorFragment.setErrorContent()</span>
+        <span class="s1">}</span><span class="s0">, </span><span class="s1">TIMER_DELAY)</span>
+    <span class="s1">}</span>
+
+    <span class="s0">class </span><span class="s1">SpinnerFragment : Fragment() {</span>
+        <span class="s1">override </span><span class="s0">fun </span><span class="s1">onCreateView(</span>
+            <span class="s1">inflater: LayoutInflater</span><span class="s0">, </span><span class="s1">container: ViewGroup?</span><span class="s0">,</span>
+            <span class="s1">savedInstanceState: Bundle?</span>
+        <span class="s1">): View? {</span>
+            <span class="s0">val </span><span class="s1">progressBar = ProgressBar(container?.context)</span>
+            <span class="s0">if </span><span class="s1">(container </span><span class="s0">is </span><span class="s1">FrameLayout) {</span>
+                <span class="s0">val </span><span class="s1">layoutParams =</span>
+                    <span class="s1">FrameLayout.LayoutParams(SPINNER_WIDTH</span><span class="s0">, </span><span class="s1">SPINNER_HEIGHT</span><span class="s0">, </span><span class="s1">Gravity.CENTER)</span>
+                <span class="s1">progressBar.layoutParams = layoutParams</span>
+            <span class="s1">}</span>
+            <span class="s0">return </span><span class="s1">progressBar</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s1">companion </span><span class="s0">object </span><span class="s1">{</span>
+        <span class="s1">private </span><span class="s0">val </span><span class="s1">TIMER_DELAY = </span><span class="s3">3000L</span>
+        <span class="s1">private </span><span class="s0">val </span><span class="s1">SPINNER_WIDTH = </span><span class="s3">100</span>
+        <span class="s1">private </span><span class="s0">val </span><span class="s1">SPINNER_HEIGHT = </span><span class="s3">100</span>
+    <span class="s1">}</span>
+<span class="s1">}</span></pre>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<html>
+<head>
+<title>MainActivity3.kt</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #a9b7c6;}
+.s1 { color: #6a8759;}
+.s2 { color: #cc7832;}
+.s3 { color: #629755; font-style: italic;}
+.s4 { color: #808080;}
+.s5 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MainActivity3.kt</font>
+</center></td></tr></table>
+<pre><span class="s0">@file:Suppress(</span><span class="s1">&quot;UNREACHABLE_CODE&quot;</span><span class="s0">)</span>
+
+<span class="s2">package </span><span class="s0">com.example.weatherapp</span>
+
+<span class="s0">import android.annotation.SuppressLint</span>
+<span class="s0">import android.os.Bundle</span>
+<span class="s0">import android.os.Parcel</span>
+<span class="s0">import android.os.Parcelable</span>
+<span class="s0">import android.view.View</span>
+<span class="s0">import androidx.appcompat.app.AppCompatActivity</span>
+<span class="s0">import androidx.fragment.app.FragmentActivity</span>
+
+<span class="s0">private </span><span class="s2">fun </span><span class="s0">&lt;Button&gt; Button.setOnClickListener(function: () -&gt; Unit) {</span>
+
+<span class="s0">}</span>
+
+<span class="s3">/**</span>
+ <span class="s3">* Loads [MainFragment2].</span>
+ <span class="s3">*/</span>
+<span class="s0">@Suppress(</span><span class="s1">&quot;UNREACHABLE_CODE&quot;</span><span class="s0">)</span>
+<span class="s2">class </span><span class="s0">MainActivity3 : FragmentActivity() {</span>
+
+    <span class="s0">override </span><span class="s2">fun </span><span class="s0">onCreate(savedInstanceState: Bundle?) {</span>
+        <span class="s2">super</span><span class="s0">.onCreate(savedInstanceState)</span>
+        <span class="s0">setContentView(R.layout.activity_main3)</span>
+        <span class="s2">if </span><span class="s0">(savedInstanceState == </span><span class="s2">null</span><span class="s0">) {</span>
+            <span class="s0">getSupportFragmentManager().beginTransaction()</span>
+                <span class="s0">.replace(R.id.main_browse_fragment</span><span class="s2">, </span><span class="s0">MainFragment2())</span>
+                <span class="s0">.commitNow()</span>
+
+
+            <span class="s0">@SuppressLint(</span><span class="s1">&quot;ParcelCreator&quot;</span><span class="s0">)</span>
+            <span class="s0">abstract </span><span class="s2">class </span><span class="s0">MainActivity&lt;row1</span><span class="s2">, </span><span class="s0">backButton</span><span class="s2">, </span><span class="s0">Button&gt; private constructor() : AppCompatActivity()</span><span class="s2">,</span>
+                <span class="s0">Parcelable {</span>
+                <span class="s0">open </span><span class="s2">var </span><span class="s0">averageTemperatureButton: backButton = TODO()</span>
+                <span class="s0">private </span><span class="s2">var </span><span class="s0">maxTemperatureTextView: row1 = TODO()</span>
+                <span class="s0">private </span><span class="s2">var </span><span class="s0">minTemperatureTextView: row2? = </span><span class="s2">null</span>
+
+                <span class="s0">inner </span><span class="s2">class </span><span class="s0">row2 {</span>
+
+                <span class="s0">}</span>
+
+
+                <span class="s4">// Sample weather data for the week</span>
+                <span class="s0">private </span><span class="s2">val </span><span class="s0">weeklyWeather = listOf(</span>
+                    <span class="s0">MainActivity2.Weather(</span><span class="s1">&quot;Monday&quot;</span><span class="s2">, </span><span class="s5">25</span><span class="s2">, </span><span class="s1">&quot;Windy with Clouds&quot;</span><span class="s0">)</span><span class="s2">,</span>
+                    <span class="s0">MainActivity2.Weather(</span><span class="s1">&quot;Tuesday&quot;</span><span class="s2">, </span><span class="s5">28</span><span class="s2">, </span><span class="s1">&quot;Partly Cloudy&quot;</span><span class="s0">)</span><span class="s2">,</span>
+                    <span class="s0">MainActivity2.Weather(</span><span class="s1">&quot;Wednesday&quot;</span><span class="s2">, </span><span class="s5">30</span><span class="s2">, </span><span class="s1">&quot;Sunny&quot;</span><span class="s0">)</span><span class="s2">,</span>
+                    <span class="s0">MainActivity2.Weather(</span><span class="s1">&quot;Thursday&quot;</span><span class="s2">, </span><span class="s5">26</span><span class="s2">, </span><span class="s1">&quot;Sunny&quot;</span><span class="s0">)</span><span class="s2">,</span>
+                    <span class="s0">MainActivity2.Weather(</span><span class="s1">&quot;Friday&quot;</span><span class="s2">, </span><span class="s5">29</span><span class="s2">, </span><span class="s1">&quot;Sunny&quot;</span><span class="s0">)</span><span class="s2">,</span>
+                    <span class="s0">MainActivity2.Weather(</span><span class="s1">&quot;Saturday&quot;</span><span class="s2">, </span><span class="s5">31</span><span class="s2">, </span><span class="s1">&quot;Sunny&quot;</span><span class="s0">)</span><span class="s2">,</span>
+                    <span class="s0">MainActivity2.Weather(</span><span class="s1">&quot;Sunday&quot;</span><span class="s2">, </span><span class="s5">27</span><span class="s2">, </span><span class="s1">&quot;Windy&quot;</span><span class="s0">)</span>
+                <span class="s0">)</span>
+
+                <span class="s0">constructor(parcel: Parcel) : </span><span class="s2">this</span><span class="s0">() {</span>
+                <span class="s0">}</span>
+
+                <span class="s0">@SuppressLint(</span><span class="s1">&quot;MissingInflatedId&quot;</span><span class="s0">)</span>
+                <span class="s0">override </span><span class="s2">fun </span><span class="s0">onCreate(savedInstanceState: Bundle?) {</span>
+                    <span class="s2">super</span><span class="s0">.onCreate(savedInstanceState)</span>
+                    <span class="s0">setContentView(R.layout.activity_main)</span>
+
+                    <span class="s4">// Initialize UI components</span>
+                    <span class="s2">this</span><span class="s0">.findViewById(</span><span class="s4">/* id = */ </span><span class="s0">R.id.AveTempButton)</span>
+                        <span class="s0">.also {</span>
+                            <span class="s2">val </span><span class="s0">it</span>
+                            <span class="s0">averageTemperatureButton = it</span>
+                        <span class="s0">}</span>
+                    <span class="s2">var </span><span class="s0">temperatureInput = </span><span class="s2">this</span><span class="s0">.maxTemperatureTextView</span>
+                        <span class="s0">.compose</span>
+                        <span class="s0">.foundation</span>
+                        <span class="s0">.layout</span>
+                        <span class="s0">.Box {</span>
+                            <span class="s0">findViewById(</span><span class="s4">/* id = */ </span><span class="s0">R.id.editTextNumber15)</span>
+                        <span class="s0">}</span>
+                    <span class="s2">var </span><span class="s0">resultTextView = </span><span class="s2">this</span><span class="s0">.findViewById(</span><span class="s4">/* id = */ </span><span class="s0">R.id.editTextNumber16)</span>
+                    <span class="s0">maxTemperatureTextView = </span><span class="s2">this</span><span class="s0">.findViewById(</span><span class="s4">/* id = */ </span><span class="s0">R.id.row1)</span>
+                    <span class="s2">this</span><span class="s0">.findViewById&lt;View?&gt;(</span><span class="s4">/* id = */ </span><span class="s0">R.id.row2)</span>
+                        <span class="s0">.also { minTemperatureTextView = it }</span>
+
+                    <span class="s4">// Set click listeners</span>
+                    <span class="s0">averageTemperatureButton.setOnClickListener {</span>
+                        <span class="s2">val </span><span class="s0">averageTemperature = calculateAverageTemperature()</span>
+                        <span class="s1">&quot;Average temperature for the week: </span><span class="s2">$</span><span class="s0">averageTemperature</span><span class="s1">°C&quot;</span><span class="s0">.also {</span>
+                            <span class="s0">it.also {</span>
+                                <span class="s0">it.also {</span>
+                                    <span class="s0">resultTextView.text = it</span>
+                                <span class="s0">}</span>
+                            <span class="s0">}</span>
+                        <span class="s0">}</span>
+
+                        <span class="s2">val </span><span class="s0">maxMinTemperatures = calculateMaxMinTemperatures()</span>
+                        <span class="s1">&quot;Max Temperature: </span><span class="s2">${</span><span class="s0">maxMinTemperatures.first</span><span class="s2">}</span><span class="s1">°C&quot;</span><span class="s0">.also { it.also { </span><span class="s2">this</span><span class="s0">.maxTemperatureTextView.text = it } }</span>
+                        <span class="s1">&quot;Min Temperature: </span><span class="s2">${</span><span class="s0">maxMinTemperatures.second</span><span class="s2">}</span><span class="s1">°C&quot;</span><span class="s0">.also {</span>
+                            <span class="s0">it.also { minTemperatureTextView!!.javaClass = it }</span>
+                        <span class="s0">}</span>
+
+                    <span class="s0">}</span>
+
+                    <span class="s4">// Button to go back to home screen</span>
+                    <span class="s2">val </span><span class="s0">backButton: Button = findViewById(R.id.backButton)</span>
+                    <span class="s0">backButton.setOnClickListener {</span>
+                        <span class="s4">// Implement the logic to go back to the home screen</span>
+                    <span class="s0">}</span>
+                <span class="s0">}</span>
+
+                <span class="s0">private </span><span class="s2">fun </span><span class="s0">calculateAverageTemperature(): Int {</span>
+                    <span class="s2">val </span><span class="s0">totalTemperature = weeklyWeather.sumBy { it.temperature }</span>
+                    <span class="s2">return </span><span class="s0">totalTemperature / weeklyWeather.size</span>
+                <span class="s0">}</span>
+
+                <span class="s0">private </span><span class="s2">fun </span><span class="s0">calculateMaxMinTemperatures(): Pair&lt;Int</span><span class="s2">, </span><span class="s0">Int&gt; {</span>
+                    <span class="s2">val </span><span class="s0">maxTemperature =</span>
+                        <span class="s0">weeklyWeather.maxByOrNull { it.temperature }?.temperature ?: </span><span class="s5">0</span>
+
+
+            <span class="s2">val </span><span class="s0">minTemperature = </span><span class="s2">null</span>
+            <span class="s2">return </span><span class="s0">maxTemperature to minTemperature</span>
+                <span class="s0">}</span>
+
+
+
+
+
+
+            <span class="s0">}</span>
+
+
+        <span class="s0">}</span></pre>
+</body>
+</html>

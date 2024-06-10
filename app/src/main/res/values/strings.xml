@@ -1,0 +1,46 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">Weather App</string>
+    <string name="button">StartButton</string>
+    <string name="textView">Heading1</string>
+    <string name="textView2">MyName</string>
+    <string name="textView3">STnumber</string>
+    <string name="button2">ExitButton</string>
+    <string name="title_activity_main2">DetailedViewScreen</string>
+    <string name="title_activity_main3">Leanback MainActivity3</string>
+    <string name="button4">averageTemperatureButton</string>
+    <string name="button3" tools:ignore="DuplicateDefinition">ExitButton2</string>
+    <string name="textView5">Monday</string>
+    <string name="textView6">Tuesday</string>
+    <string name="textView7">Wednesday</string>
+    <string name="textView8">Thursday</string>
+    <string name="textView9">Friday</string>
+    <string name="textView10">Saturday</string>
+    <string name="editTextNumber8">editTextNumber8</string>
+    <string name="editTextNumber9">editTextNumber9</string>
+    <string name="editTextNumber10">editTextNumber10</string>
+    <string name="editTextNumber11">editTextNumber11</string>
+    <string name="editTextNumber12">editTextNumber12</string>
+    <string name="editTextNumber13">editTextNumber13</string>
+    <string name="editTextNumber14">editTextNumber14</string>
+    <string name="editTextNumber15">editTextNumber15</string>
+    <string name="editTextNumber16">editTextNumber16</string>
+    <string name="backButton">backButton</string>
+    <string name="textview10">textView10</string>
+    <string name="textview2">textView2</string>
+    <string name="textview3">textView3</string>
+    <string name="textview4">textView4</string>
+    <string name="textview5">textView5</string>
+    <string name="textview6">textView6</string>
+    <string name="textview7">textView7</string>
+    <string name="row1">row1</string>
+    <string name="row2">row2</string>
+    <string name="editTextNumber20">editTextNumber20</string>
+
+
+
+
+
+
+
+
+</resources>

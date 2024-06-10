@@ -1,0 +1,44 @@
+<html>
+<head>
+<title>DetailsActivity2.kt</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #629755; font-style: italic;}
+.s3 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+DetailsActivity2.kt</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.example.weatherapp</span>
+
+<span class="s1">import android.os.Bundle</span>
+<span class="s1">import androidx.fragment.app.FragmentActivity</span>
+
+<span class="s2">/**</span>
+ <span class="s2">* Details activity class that loads [VideoDetailsFragment] class.</span>
+ <span class="s2">*/</span>
+<span class="s0">class </span><span class="s1">DetailsActivity2 : FragmentActivity() {</span>
+
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onCreate(savedInstanceState: Bundle?) {</span>
+        <span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span>
+        <span class="s1">setContentView(R.layout.activity_details2)</span>
+        <span class="s0">if </span><span class="s1">(savedInstanceState == </span><span class="s0">null</span><span class="s1">) {</span>
+            <span class="s1">supportFragmentManager.beginTransaction()</span>
+                <span class="s1">.replace(R.id.details_fragment</span><span class="s0">, </span><span class="s1">VideoDetailsFragment2())</span>
+                <span class="s1">.commitNow()</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s1">companion </span><span class="s0">object </span><span class="s1">{</span>
+        <span class="s1">const </span><span class="s0">val </span><span class="s1">SHARED_ELEMENT_NAME = </span><span class="s3">&quot;hero&quot;</span>
+        <span class="s1">const </span><span class="s0">val </span><span class="s1">MOVIE = </span><span class="s3">&quot;Movie&quot;</span>
+    <span class="s1">}</span>
+<span class="s1">}</span></pre>
+</body>
+</html>

@@ -1,0 +1,254 @@
+<html>
+<head>
+<title>MainFragment.kt</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #629755; font-style: italic;}
+.s3 { color: #6a8759;}
+.s4 { color: #808080;}
+.s5 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MainFragment.kt</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.example.weatherapp</span>
+
+<span class="s1">import java.util.Collections</span>
+<span class="s1">import java.util.Timer</span>
+<span class="s1">import java.util.TimerTask</span>
+
+<span class="s1">import android.content.Intent</span>
+<span class="s1">import android.graphics.Color</span>
+<span class="s1">import android.graphics.drawable.Drawable</span>
+<span class="s1">import android.os.Bundle</span>
+<span class="s1">import android.os.Handler</span>
+<span class="s1">import android.os.Looper</span>
+<span class="s1">import androidx.leanback.app.BackgroundManager</span>
+<span class="s1">import androidx.leanback.app.BrowseSupportFragment</span>
+<span class="s1">import androidx.leanback.widget.ArrayObjectAdapter</span>
+<span class="s1">import androidx.leanback.widget.HeaderItem</span>
+<span class="s1">import androidx.leanback.widget.ImageCardView</span>
+<span class="s1">import androidx.leanback.widget.ListRow</span>
+<span class="s1">import androidx.leanback.widget.ListRowPresenter</span>
+<span class="s1">import androidx.leanback.widget.OnItemViewClickedListener</span>
+<span class="s1">import androidx.leanback.widget.OnItemViewSelectedListener</span>
+<span class="s1">import androidx.leanback.widget.Presenter</span>
+<span class="s1">import androidx.leanback.widget.Row</span>
+<span class="s1">import androidx.leanback.widget.RowPresenter</span>
+<span class="s1">import androidx.core.app.ActivityOptionsCompat</span>
+<span class="s1">import androidx.core.content.ContextCompat</span>
+<span class="s1">import android.util.DisplayMetrics</span>
+<span class="s1">import android.util.Log</span>
+<span class="s1">import android.view.Gravity</span>
+<span class="s1">import android.view.ViewGroup</span>
+<span class="s1">import android.widget.TextView</span>
+<span class="s1">import android.widget.Toast</span>
+
+<span class="s1">import com.bumptech.glide.Glide</span>
+<span class="s1">import com.bumptech.glide.request.target.SimpleTarget</span>
+<span class="s1">import com.bumptech.glide.request.transition.Transition</span>
+
+<span class="s2">/**</span>
+ <span class="s2">* Loads a grid of cards with movies to browse.</span>
+ <span class="s2">*/</span>
+<span class="s0">class </span><span class="s1">MainFragment : BrowseSupportFragment() {</span>
+
+    <span class="s1">private </span><span class="s0">val </span><span class="s1">mHandler = Handler(Looper.myLooper()!!)</span>
+    <span class="s1">private lateinit </span><span class="s0">var </span><span class="s1">mBackgroundManager: BackgroundManager</span>
+    <span class="s1">private </span><span class="s0">var </span><span class="s1">mDefaultBackground: Drawable? = </span><span class="s0">null</span>
+    <span class="s1">private lateinit </span><span class="s0">var </span><span class="s1">mMetrics: DisplayMetrics</span>
+    <span class="s1">private </span><span class="s0">var </span><span class="s1">mBackgroundTimer: Timer? = </span><span class="s0">null</span>
+    <span class="s1">private </span><span class="s0">var </span><span class="s1">mBackgroundUri: String? = </span><span class="s0">null</span>
+
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onActivityCreated(savedInstanceState: Bundle?) {</span>
+        <span class="s1">Log.i(TAG</span><span class="s0">, </span><span class="s3">&quot;onCreate&quot;</span><span class="s1">)</span>
+        <span class="s0">super</span><span class="s1">.onActivityCreated(savedInstanceState)</span>
+
+        <span class="s1">prepareBackgroundManager()</span>
+
+        <span class="s1">setupUIElements()</span>
+
+        <span class="s1">loadRows()</span>
+
+        <span class="s1">setupEventListeners()</span>
+    <span class="s1">}</span>
+
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onDestroy() {</span>
+        <span class="s0">super</span><span class="s1">.onDestroy()</span>
+        <span class="s1">Log.d(TAG</span><span class="s0">, </span><span class="s3">&quot;onDestroy: &quot; </span><span class="s1">+ mBackgroundTimer?.toString())</span>
+        <span class="s1">mBackgroundTimer?.cancel()</span>
+    <span class="s1">}</span>
+
+    <span class="s1">private </span><span class="s0">fun </span><span class="s1">prepareBackgroundManager() {</span>
+
+        <span class="s1">mBackgroundManager = BackgroundManager.getInstance(activity)</span>
+        <span class="s1">mBackgroundManager.attach(activity!!.window)</span>
+        <span class="s1">mDefaultBackground = ContextCompat.getDrawable(context!!</span><span class="s0">, </span><span class="s1">R.drawable.default_background)</span>
+        <span class="s1">mMetrics = DisplayMetrics()</span>
+        <span class="s1">activity!!.windowManager.defaultDisplay.getMetrics(mMetrics)</span>
+    <span class="s1">}</span>
+
+    <span class="s1">private </span><span class="s0">fun </span><span class="s1">setupUIElements() {</span>
+        <span class="s1">title = getString(R.string.browse_title)</span>
+        <span class="s4">// over title</span>
+        <span class="s1">headersState = BrowseSupportFragment.HEADERS_ENABLED</span>
+        <span class="s1">isHeadersTransitionOnBackEnabled = </span><span class="s0">true</span>
+
+        <span class="s4">// set fastLane (or headers) background color</span>
+        <span class="s1">brandColor = ContextCompat.getColor(context!!</span><span class="s0">, </span><span class="s1">R.color.fastlane_background)</span>
+        <span class="s4">// set search icon color</span>
+        <span class="s1">searchAffordanceColor = ContextCompat.getColor(context!!</span><span class="s0">, </span><span class="s1">R.color.search_opaque)</span>
+    <span class="s1">}</span>
+
+    <span class="s1">private </span><span class="s0">fun </span><span class="s1">loadRows() {</span>
+        <span class="s0">val </span><span class="s1">list = MovieList.list</span>
+
+        <span class="s0">val </span><span class="s1">rowsAdapter = ArrayObjectAdapter(ListRowPresenter())</span>
+        <span class="s0">val </span><span class="s1">cardPresenter = CardPresenter()</span>
+
+        <span class="s0">for </span><span class="s1">(i </span><span class="s0">in </span><span class="s5">0 </span><span class="s1">until NUM_ROWS) {</span>
+            <span class="s0">if </span><span class="s1">(i != </span><span class="s5">0</span><span class="s1">) {</span>
+                <span class="s1">Collections.shuffle(list)</span>
+            <span class="s1">}</span>
+            <span class="s0">val </span><span class="s1">listRowAdapter = ArrayObjectAdapter(cardPresenter)</span>
+            <span class="s0">for </span><span class="s1">(j </span><span class="s0">in </span><span class="s5">0 </span><span class="s1">until NUM_COLS) {</span>
+                <span class="s1">listRowAdapter.add(list[j % </span><span class="s5">5</span><span class="s1">])</span>
+            <span class="s1">}</span>
+            <span class="s0">val </span><span class="s1">header = HeaderItem(i.toLong()</span><span class="s0">, </span><span class="s1">MovieList.MOVIE_CATEGORY[i])</span>
+            <span class="s1">rowsAdapter.add(ListRow(header</span><span class="s0">, </span><span class="s1">listRowAdapter))</span>
+        <span class="s1">}</span>
+
+        <span class="s0">val </span><span class="s1">gridHeader = HeaderItem(NUM_ROWS.toLong()</span><span class="s0">, </span><span class="s3">&quot;PREFERENCES&quot;</span><span class="s1">)</span>
+
+        <span class="s0">val </span><span class="s1">mGridPresenter = GridItemPresenter()</span>
+        <span class="s0">val </span><span class="s1">gridRowAdapter = ArrayObjectAdapter(mGridPresenter)</span>
+        <span class="s1">gridRowAdapter.add(resources.getString(R.string.grid_view))</span>
+        <span class="s1">gridRowAdapter.add(getString(R.string.error_fragment))</span>
+        <span class="s1">gridRowAdapter.add(resources.getString(R.string.personal_settings))</span>
+        <span class="s1">rowsAdapter.add(ListRow(gridHeader</span><span class="s0">, </span><span class="s1">gridRowAdapter))</span>
+
+        <span class="s1">adapter = rowsAdapter</span>
+    <span class="s1">}</span>
+
+    <span class="s1">private </span><span class="s0">fun </span><span class="s1">setupEventListeners() {</span>
+        <span class="s1">setOnSearchClickedListener {</span>
+            <span class="s1">Toast.makeText(context!!</span><span class="s0">, </span><span class="s3">&quot;Implement your own in-app search&quot;</span><span class="s0">, </span><span class="s1">Toast.LENGTH_LONG)</span>
+                <span class="s1">.show()</span>
+        <span class="s1">}</span>
+
+        <span class="s1">onItemViewClickedListener = ItemViewClickedListener()</span>
+        <span class="s1">onItemViewSelectedListener = ItemViewSelectedListener()</span>
+    <span class="s1">}</span>
+
+    <span class="s1">private inner </span><span class="s0">class </span><span class="s1">ItemViewClickedListener : OnItemViewClickedListener {</span>
+        <span class="s1">override </span><span class="s0">fun </span><span class="s1">onItemClicked(</span>
+            <span class="s1">itemViewHolder: Presenter.ViewHolder</span><span class="s0">,</span>
+            <span class="s1">item: Any</span><span class="s0">,</span>
+            <span class="s1">rowViewHolder: RowPresenter.ViewHolder</span><span class="s0">,</span>
+            <span class="s1">row: Row</span>
+        <span class="s1">) {</span>
+
+            <span class="s0">if </span><span class="s1">(item </span><span class="s0">is </span><span class="s1">Movie) {</span>
+                <span class="s1">Log.d(TAG</span><span class="s0">, </span><span class="s3">&quot;Item: &quot; </span><span class="s1">+ item.toString())</span>
+                <span class="s0">val </span><span class="s1">intent = Intent(context!!</span><span class="s0">, </span><span class="s1">DetailsActivity::</span><span class="s0">class</span><span class="s1">.java)</span>
+                <span class="s1">intent.putExtra(DetailsActivity.MOVIE</span><span class="s0">, </span><span class="s1">item)</span>
+
+                <span class="s0">val </span><span class="s1">bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(</span>
+                    <span class="s1">activity!!</span><span class="s0">,</span>
+                    <span class="s1">(itemViewHolder.view </span><span class="s0">as </span><span class="s1">ImageCardView).mainImageView</span><span class="s0">,</span>
+                    <span class="s1">DetailsActivity.SHARED_ELEMENT_NAME</span>
+                <span class="s1">)</span>
+                    <span class="s1">.toBundle()</span>
+                <span class="s1">startActivity(intent</span><span class="s0">, </span><span class="s1">bundle)</span>
+            <span class="s1">} </span><span class="s0">else if </span><span class="s1">(item </span><span class="s0">is </span><span class="s1">String) {</span>
+                <span class="s0">if </span><span class="s1">(item.contains(getString(R.string.error_fragment))) {</span>
+                    <span class="s0">val </span><span class="s1">intent = Intent(context!!</span><span class="s0">, </span><span class="s1">BrowseErrorActivity::</span><span class="s0">class</span><span class="s1">.java)</span>
+                    <span class="s1">startActivity(intent)</span>
+                <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                    <span class="s1">Toast.makeText(context!!</span><span class="s0">, </span><span class="s1">item</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s1">private inner </span><span class="s0">class </span><span class="s1">ItemViewSelectedListener : OnItemViewSelectedListener {</span>
+        <span class="s1">override </span><span class="s0">fun </span><span class="s1">onItemSelected(</span>
+            <span class="s1">itemViewHolder: Presenter.ViewHolder?</span><span class="s0">, </span><span class="s1">item: Any?</span><span class="s0">,</span>
+            <span class="s1">rowViewHolder: RowPresenter.ViewHolder</span><span class="s0">, </span><span class="s1">row: Row</span>
+        <span class="s1">) {</span>
+            <span class="s0">if </span><span class="s1">(item </span><span class="s0">is </span><span class="s1">Movie) {</span>
+                <span class="s1">mBackgroundUri = item.backgroundImageUrl</span>
+                <span class="s1">startBackgroundTimer()</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s1">private </span><span class="s0">fun </span><span class="s1">updateBackground(uri: String?) {</span>
+        <span class="s0">val </span><span class="s1">width = mMetrics.widthPixels</span>
+        <span class="s0">val </span><span class="s1">height = mMetrics.heightPixels</span>
+        <span class="s1">Glide.with(context!!)</span>
+            <span class="s1">.load(uri)</span>
+            <span class="s1">.centerCrop()</span>
+            <span class="s1">.error(mDefaultBackground)</span>
+            <span class="s1">.into&lt;SimpleTarget&lt;Drawable&gt;&gt;(</span>
+                <span class="s0">object </span><span class="s1">: SimpleTarget&lt;Drawable&gt;(width</span><span class="s0">, </span><span class="s1">height) {</span>
+                    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onResourceReady(</span>
+                        <span class="s1">drawable: Drawable</span><span class="s0">,</span>
+                        <span class="s1">transition: Transition&lt;</span><span class="s0">in </span><span class="s1">Drawable&gt;?</span>
+                    <span class="s1">) {</span>
+                        <span class="s1">mBackgroundManager.drawable = drawable</span>
+                    <span class="s1">}</span>
+                <span class="s1">})</span>
+        <span class="s1">mBackgroundTimer?.cancel()</span>
+    <span class="s1">}</span>
+
+    <span class="s1">private </span><span class="s0">fun </span><span class="s1">startBackgroundTimer() {</span>
+        <span class="s1">mBackgroundTimer?.cancel()</span>
+        <span class="s1">mBackgroundTimer = Timer()</span>
+        <span class="s1">mBackgroundTimer?.schedule(UpdateBackgroundTask()</span><span class="s0">, </span><span class="s1">BACKGROUND_UPDATE_DELAY.toLong())</span>
+    <span class="s1">}</span>
+
+    <span class="s1">private inner </span><span class="s0">class </span><span class="s1">UpdateBackgroundTask : TimerTask() {</span>
+
+        <span class="s1">override </span><span class="s0">fun </span><span class="s1">run() {</span>
+            <span class="s1">mHandler.post { updateBackground(mBackgroundUri) }</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s1">private inner </span><span class="s0">class </span><span class="s1">GridItemPresenter : Presenter() {</span>
+        <span class="s1">override </span><span class="s0">fun </span><span class="s1">onCreateViewHolder(parent: ViewGroup): Presenter.ViewHolder {</span>
+            <span class="s0">val </span><span class="s1">view = TextView(parent.context)</span>
+            <span class="s1">view.layoutParams = ViewGroup.LayoutParams(GRID_ITEM_WIDTH</span><span class="s0">, </span><span class="s1">GRID_ITEM_HEIGHT)</span>
+            <span class="s1">view.isFocusable = </span><span class="s0">true</span>
+            <span class="s1">view.isFocusableInTouchMode = </span><span class="s0">true</span>
+            <span class="s1">view.setBackgroundColor(ContextCompat.getColor(context!!</span><span class="s0">, </span><span class="s1">R.color.default_background))</span>
+            <span class="s1">view.setTextColor(Color.WHITE)</span>
+            <span class="s1">view.gravity = Gravity.CENTER</span>
+            <span class="s0">return </span><span class="s1">Presenter.ViewHolder(view)</span>
+        <span class="s1">}</span>
+
+        <span class="s1">override </span><span class="s0">fun </span><span class="s1">onBindViewHolder(viewHolder: Presenter.ViewHolder</span><span class="s0">, </span><span class="s1">item: Any) {</span>
+            <span class="s1">(viewHolder.view </span><span class="s0">as </span><span class="s1">TextView).text = item </span><span class="s0">as </span><span class="s1">String</span>
+        <span class="s1">}</span>
+
+        <span class="s1">override </span><span class="s0">fun </span><span class="s1">onUnbindViewHolder(viewHolder: Presenter.ViewHolder) {}</span>
+    <span class="s1">}</span>
+
+    <span class="s1">companion </span><span class="s0">object </span><span class="s1">{</span>
+        <span class="s1">private </span><span class="s0">val </span><span class="s1">TAG = </span><span class="s3">&quot;MainFragment&quot;</span>
+
+        <span class="s1">private </span><span class="s0">val </span><span class="s1">BACKGROUND_UPDATE_DELAY = </span><span class="s5">300</span>
+        <span class="s1">private </span><span class="s0">val </span><span class="s1">GRID_ITEM_WIDTH = </span><span class="s5">200</span>
+        <span class="s1">private </span><span class="s0">val </span><span class="s1">GRID_ITEM_HEIGHT = </span><span class="s5">200</span>
+        <span class="s1">private </span><span class="s0">val </span><span class="s1">NUM_ROWS = </span><span class="s5">6</span>
+        <span class="s1">private </span><span class="s0">val </span><span class="s1">NUM_COLS = </span><span class="s5">15</span>
+    <span class="s1">}</span>
+<span class="s1">}</span></pre>
+</body>
+</html>

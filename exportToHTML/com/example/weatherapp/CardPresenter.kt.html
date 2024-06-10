@@ -1,0 +1,103 @@
+<html>
+<head>
+<title>CardPresenter.kt</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #629755; font-style: italic;}
+.s3 { color: #6a8759;}
+.s4 { color: #808080;}
+.s5 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+CardPresenter.kt</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.example.weatherapp</span>
+
+<span class="s1">import android.graphics.drawable.Drawable</span>
+<span class="s1">import androidx.leanback.widget.ImageCardView</span>
+<span class="s1">import androidx.leanback.widget.Presenter</span>
+<span class="s1">import androidx.core.content.ContextCompat</span>
+<span class="s1">import android.util.Log</span>
+<span class="s1">import android.view.ViewGroup</span>
+
+<span class="s1">import com.bumptech.glide.Glide</span>
+<span class="s1">import kotlin.properties.Delegates</span>
+
+<span class="s2">/**</span>
+ <span class="s2">* A CardPresenter is used to generate Views and bind Objects to them on demand.</span>
+ <span class="s2">* It contains an ImageCardView.</span>
+ <span class="s2">*/</span>
+<span class="s0">class </span><span class="s1">CardPresenter : Presenter() {</span>
+    <span class="s1">private </span><span class="s0">var </span><span class="s1">mDefaultCardImage: Drawable? = </span><span class="s0">null</span>
+    <span class="s1">private </span><span class="s0">var </span><span class="s1">sSelectedBackgroundColor: Int by Delegates.notNull()</span>
+    <span class="s1">private </span><span class="s0">var </span><span class="s1">sDefaultBackgroundColor: Int by Delegates.notNull()</span>
+
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onCreateViewHolder(parent: ViewGroup): Presenter.ViewHolder {</span>
+        <span class="s1">Log.d(TAG</span><span class="s0">, </span><span class="s3">&quot;onCreateViewHolder&quot;</span><span class="s1">)</span>
+
+        <span class="s1">sDefaultBackgroundColor = ContextCompat.getColor(parent.context</span><span class="s0">, </span><span class="s1">R.color.default_background)</span>
+        <span class="s1">sSelectedBackgroundColor =</span>
+            <span class="s1">ContextCompat.getColor(parent.context</span><span class="s0">, </span><span class="s1">R.color.selected_background)</span>
+        <span class="s1">mDefaultCardImage = ContextCompat.getDrawable(parent.context</span><span class="s0">, </span><span class="s1">R.drawable.movie)</span>
+
+        <span class="s0">val </span><span class="s1">cardView = </span><span class="s0">object </span><span class="s1">: ImageCardView(parent.context) {</span>
+            <span class="s1">override </span><span class="s0">fun </span><span class="s1">setSelected(selected: Boolean) {</span>
+                <span class="s1">updateCardBackgroundColor(</span><span class="s0">this, </span><span class="s1">selected)</span>
+                <span class="s0">super</span><span class="s1">.setSelected(selected)</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+
+        <span class="s1">cardView.isFocusable = </span><span class="s0">true</span>
+        <span class="s1">cardView.isFocusableInTouchMode = </span><span class="s0">true</span>
+        <span class="s1">updateCardBackgroundColor(cardView</span><span class="s0">, false</span><span class="s1">)</span>
+        <span class="s0">return </span><span class="s1">Presenter.ViewHolder(cardView)</span>
+    <span class="s1">}</span>
+
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onBindViewHolder(viewHolder: Presenter.ViewHolder</span><span class="s0">, </span><span class="s1">item: Any) {</span>
+        <span class="s0">val </span><span class="s1">movie = item </span><span class="s0">as </span><span class="s1">Movie</span>
+        <span class="s0">val </span><span class="s1">cardView = viewHolder.view </span><span class="s0">as </span><span class="s1">ImageCardView</span>
+
+        <span class="s1">Log.d(TAG</span><span class="s0">, </span><span class="s3">&quot;onBindViewHolder&quot;</span><span class="s1">)</span>
+        <span class="s0">if </span><span class="s1">(movie.cardImageUrl != </span><span class="s0">null</span><span class="s1">) {</span>
+            <span class="s1">cardView.titleText = movie.title</span>
+            <span class="s1">cardView.contentText = movie.studio</span>
+            <span class="s1">cardView.setMainImageDimensions(CARD_WIDTH</span><span class="s0">, </span><span class="s1">CARD_HEIGHT)</span>
+            <span class="s1">Glide.with(viewHolder.view.context)</span>
+                <span class="s1">.load(movie.cardImageUrl)</span>
+                <span class="s1">.centerCrop()</span>
+                <span class="s1">.error(mDefaultCardImage)</span>
+                <span class="s1">.into(cardView.mainImageView)</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onUnbindViewHolder(viewHolder: Presenter.ViewHolder) {</span>
+        <span class="s1">Log.d(TAG</span><span class="s0">, </span><span class="s3">&quot;onUnbindViewHolder&quot;</span><span class="s1">)</span>
+        <span class="s0">val </span><span class="s1">cardView = viewHolder.view </span><span class="s0">as </span><span class="s1">ImageCardView</span>
+        <span class="s4">// Remove references to images so that the garbage collector can free up memory</span>
+        <span class="s1">cardView.badgeImage = </span><span class="s0">null</span>
+        <span class="s1">cardView.mainImage = </span><span class="s0">null</span>
+    <span class="s1">}</span>
+
+    <span class="s1">private </span><span class="s0">fun </span><span class="s1">updateCardBackgroundColor(view: ImageCardView</span><span class="s0">, </span><span class="s1">selected: Boolean) {</span>
+        <span class="s0">val </span><span class="s1">color = </span><span class="s0">if </span><span class="s1">(selected) sSelectedBackgroundColor </span><span class="s0">else </span><span class="s1">sDefaultBackgroundColor</span>
+        <span class="s4">// Both background colors should be set because the view&quot;s background is temporarily visible</span>
+        <span class="s4">// during animations.</span>
+        <span class="s1">view.setBackgroundColor(color)</span>
+        <span class="s1">view.setInfoAreaBackgroundColor(color)</span>
+    <span class="s1">}</span>
+
+    <span class="s1">companion </span><span class="s0">object </span><span class="s1">{</span>
+        <span class="s1">private </span><span class="s0">val </span><span class="s1">TAG = </span><span class="s3">&quot;CardPresenter&quot;</span>
+
+        <span class="s1">private </span><span class="s0">val </span><span class="s1">CARD_WIDTH = </span><span class="s5">313</span>
+        <span class="s1">private </span><span class="s0">val </span><span class="s1">CARD_HEIGHT = </span><span class="s5">176</span>
+    <span class="s1">}</span>
+<span class="s1">}</span></pre>
+</body>
+</html>

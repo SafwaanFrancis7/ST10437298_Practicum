@@ -1,0 +1,113 @@
+<html>
+<head>
+<title>MovieList.kt</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+.s3 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MovieList.kt</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.example.weatherapp</span>
+
+<span class="s0">object </span><span class="s1">MovieList {</span>
+    <span class="s0">val </span><span class="s1">MOVIE_CATEGORY = arrayOf(</span>
+        <span class="s2">&quot;Category Zero&quot;</span><span class="s0">,</span>
+        <span class="s2">&quot;Category One&quot;</span><span class="s0">,</span>
+        <span class="s2">&quot;Category Two&quot;</span><span class="s0">,</span>
+        <span class="s2">&quot;Category Three&quot;</span><span class="s0">,</span>
+        <span class="s2">&quot;Category Four&quot;</span><span class="s0">,</span>
+        <span class="s2">&quot;Category Five&quot;</span>
+    <span class="s1">)</span>
+
+    <span class="s0">val </span><span class="s1">list: List&lt;Movie&gt; by lazy {</span>
+        <span class="s1">setupMovies()</span>
+    <span class="s1">}</span>
+    <span class="s1">private </span><span class="s0">var </span><span class="s1">count: Long = </span><span class="s3">0</span>
+
+    <span class="s1">private </span><span class="s0">fun </span><span class="s1">setupMovies(): List&lt;Movie&gt; {</span>
+        <span class="s0">val </span><span class="s1">title = arrayOf(</span>
+            <span class="s2">&quot;Zeitgeist 2010_ Year in Review&quot;</span><span class="s0">,</span>
+            <span class="s2">&quot;Google Demo Slam_ 20ft Search&quot;</span><span class="s0">,</span>
+            <span class="s2">&quot;Introducing Gmail Blue&quot;</span><span class="s0">,</span>
+            <span class="s2">&quot;Introducing Google Fiber to the Pole&quot;</span><span class="s0">,</span>
+            <span class="s2">&quot;Introducing Google Nose&quot;</span>
+        <span class="s1">)</span>
+
+        <span class="s0">val </span><span class="s1">description = </span><span class="s2">&quot;Fusce id nisi turpis. Praesent viverra bibendum semper. &quot; </span><span class="s1">+</span>
+                <span class="s2">&quot;Donec tristique, orci sed semper lacinia, quam erat rhoncus massa, non congue tellus est &quot; </span><span class="s1">+</span>
+                <span class="s2">&quot;quis tellus. Sed mollis orci venenatis quam scelerisque accumsan. Curabitur a massa sit &quot; </span><span class="s1">+</span>
+                <span class="s2">&quot;amet mi accumsan mollis sed et magna. Vivamus sed aliquam risus. Nulla eget dolor in elit &quot; </span><span class="s1">+</span>
+                <span class="s2">&quot;facilisis mattis. Ut aliquet luctus lacus. Phasellus nec commodo erat. Praesent tempus id &quot; </span><span class="s1">+</span>
+                <span class="s2">&quot;lectus ac scelerisque. Maecenas pretium cursus lectus id volutpat.&quot;</span>
+        <span class="s0">val </span><span class="s1">studio = arrayOf(</span>
+            <span class="s2">&quot;Studio Zero&quot;</span><span class="s0">,</span>
+            <span class="s2">&quot;Studio One&quot;</span><span class="s0">,</span>
+            <span class="s2">&quot;Studio Two&quot;</span><span class="s0">,</span>
+            <span class="s2">&quot;Studio Three&quot;</span><span class="s0">,</span>
+            <span class="s2">&quot;Studio Four&quot;</span>
+        <span class="s1">)</span>
+        <span class="s0">val </span><span class="s1">videoUrl = arrayOf(</span>
+            <span class="s2">&quot;https://commondatastorage.googleapis.com/android-tv/Sample%20videos/Zeitgeist/Zeitgeist%202010_%20Year%20in%20Review.mp4&quot;</span><span class="s0">,</span>
+            <span class="s2">&quot;https://commondatastorage.googleapis.com/android-tv/Sample%20videos/Demo%20Slam/Google%20Demo%20Slam_%2020ft%20Search.mp4&quot;</span><span class="s0">,</span>
+            <span class="s2">&quot;https://commondatastorage.googleapis.com/android-tv/Sample%20videos/April%20Fool's%202013/Introducing%20Gmail%20Blue.mp4&quot;</span><span class="s0">,</span>
+            <span class="s2">&quot;https://commondatastorage.googleapis.com/android-tv/Sample%20videos/April%20Fool's%202013/Introducing%20Google%20Fiber%20to%20the%20Pole.mp4&quot;</span><span class="s0">,</span>
+            <span class="s2">&quot;https://commondatastorage.googleapis.com/android-tv/Sample%20videos/April%20Fool's%202013/Introducing%20Google%20Nose.mp4&quot;</span>
+        <span class="s1">)</span>
+        <span class="s0">val </span><span class="s1">bgImageUrl = arrayOf(</span>
+            <span class="s2">&quot;https://commondatastorage.googleapis.com/android-tv/Sample%20videos/Zeitgeist/Zeitgeist%202010_%20Year%20in%20Review/bg.jpg&quot;</span><span class="s0">,</span>
+            <span class="s2">&quot;https://commondatastorage.googleapis.com/android-tv/Sample%20videos/Demo%20Slam/Google%20Demo%20Slam_%2020ft%20Search/bg.jpg&quot;</span><span class="s0">,</span>
+            <span class="s2">&quot;https://commondatastorage.googleapis.com/android-tv/Sample%20videos/April%20Fool's%202013/Introducing%20Gmail%20Blue/bg.jpg&quot;</span><span class="s0">,</span>
+            <span class="s2">&quot;https://commondatastorage.googleapis.com/android-tv/Sample%20videos/April%20Fool's%202013/Introducing%20Google%20Fiber%20to%20the%20Pole/bg.jpg&quot;</span><span class="s0">,</span>
+            <span class="s2">&quot;https://commondatastorage.googleapis.com/android-tv/Sample%20videos/April%20Fool's%202013/Introducing%20Google%20Nose/bg.jpg&quot;</span>
+        <span class="s1">)</span>
+        <span class="s0">val </span><span class="s1">cardImageUrl = arrayOf(</span>
+            <span class="s2">&quot;https://commondatastorage.googleapis.com/android-tv/Sample%20videos/Zeitgeist/Zeitgeist%202010_%20Year%20in%20Review/card.jpg&quot;</span><span class="s0">,</span>
+            <span class="s2">&quot;https://commondatastorage.googleapis.com/android-tv/Sample%20videos/Demo%20Slam/Google%20Demo%20Slam_%2020ft%20Search/card.jpg&quot;</span><span class="s0">,</span>
+            <span class="s2">&quot;https://commondatastorage.googleapis.com/android-tv/Sample%20videos/April%20Fool's%202013/Introducing%20Gmail%20Blue/card.jpg&quot;</span><span class="s0">,</span>
+            <span class="s2">&quot;https://commondatastorage.googleapis.com/android-tv/Sample%20videos/April%20Fool's%202013/Introducing%20Google%20Fiber%20to%20the%20Pole/card.jpg&quot;</span><span class="s0">,</span>
+            <span class="s2">&quot;https://commondatastorage.googleapis.com/android-tv/Sample%20videos/April%20Fool's%202013/Introducing%20Google%20Nose/card.jpg&quot;</span>
+        <span class="s1">)</span>
+
+        <span class="s0">val </span><span class="s1">list = title.indices.map {</span>
+            <span class="s1">buildMovieInfo(</span>
+                <span class="s1">title[it]</span><span class="s0">,</span>
+                <span class="s1">description</span><span class="s0">,</span>
+                <span class="s1">studio[it]</span><span class="s0">,</span>
+                <span class="s1">videoUrl[it]</span><span class="s0">,</span>
+                <span class="s1">cardImageUrl[it]</span><span class="s0">,</span>
+                <span class="s1">bgImageUrl[it]</span>
+            <span class="s1">)</span>
+        <span class="s1">}</span>
+
+        <span class="s0">return </span><span class="s1">list</span>
+    <span class="s1">}</span>
+
+    <span class="s1">private </span><span class="s0">fun </span><span class="s1">buildMovieInfo(</span>
+        <span class="s1">title: String</span><span class="s0">,</span>
+        <span class="s1">description: String</span><span class="s0">,</span>
+        <span class="s1">studio: String</span><span class="s0">,</span>
+        <span class="s1">videoUrl: String</span><span class="s0">,</span>
+        <span class="s1">cardImageUrl: String</span><span class="s0">,</span>
+        <span class="s1">backgroundImageUrl: String</span>
+    <span class="s1">): Movie {</span>
+        <span class="s0">val </span><span class="s1">movie = Movie()</span>
+        <span class="s1">movie.id = count++</span>
+        <span class="s1">movie.title = title</span>
+        <span class="s1">movie.description = description</span>
+        <span class="s1">movie.studio = studio</span>
+        <span class="s1">movie.cardImageUrl = cardImageUrl</span>
+        <span class="s1">movie.backgroundImageUrl = backgroundImageUrl</span>
+        <span class="s1">movie.videoUrl = videoUrl</span>
+        <span class="s0">return </span><span class="s1">movie</span>
+    <span class="s1">}</span>
+<span class="s1">}</span></pre>
+</body>
+</html>

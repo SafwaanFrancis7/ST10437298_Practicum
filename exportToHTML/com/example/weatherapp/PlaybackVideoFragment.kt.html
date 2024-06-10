@@ -1,0 +1,57 @@
+<html>
+<head>
+<title>PlaybackVideoFragment.kt</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #629755; font-style: italic;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+PlaybackVideoFragment.kt</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.example.weatherapp</span>
+
+<span class="s1">import android.net.Uri</span>
+<span class="s1">import android.os.Bundle</span>
+<span class="s1">import androidx.leanback.app.VideoSupportFragment</span>
+<span class="s1">import androidx.leanback.app.VideoSupportFragmentGlueHost</span>
+<span class="s1">import androidx.leanback.media.MediaPlayerAdapter</span>
+<span class="s1">import androidx.leanback.media.PlaybackTransportControlGlue</span>
+<span class="s1">import androidx.leanback.widget.PlaybackControlsRow</span>
+
+<span class="s2">/** Handles video playback with media controls. */</span>
+<span class="s0">class </span><span class="s1">PlaybackVideoFragment : VideoSupportFragment() {</span>
+
+    <span class="s1">private lateinit </span><span class="s0">var </span><span class="s1">mTransportControlGlue: PlaybackTransportControlGlue&lt;MediaPlayerAdapter&gt;</span>
+
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onCreate(savedInstanceState: Bundle?) {</span>
+        <span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span>
+
+        <span class="s0">val </span><span class="s1">(_</span><span class="s0">, </span><span class="s1">title</span><span class="s0">, </span><span class="s1">description</span><span class="s0">, </span><span class="s1">_</span><span class="s0">, </span><span class="s1">_</span><span class="s0">, </span><span class="s1">videoUrl) =</span>
+            <span class="s1">activity?.intent?.getSerializableExtra(DetailsActivity.MOVIE) </span><span class="s0">as </span><span class="s1">Movie</span>
+
+        <span class="s0">val </span><span class="s1">glueHost = VideoSupportFragmentGlueHost(</span><span class="s0">this</span><span class="s1">@PlaybackVideoFragment)</span>
+        <span class="s0">val </span><span class="s1">playerAdapter = MediaPlayerAdapter(context)</span>
+        <span class="s1">playerAdapter.setRepeatAction(PlaybackControlsRow.RepeatAction.INDEX_NONE)</span>
+
+        <span class="s1">mTransportControlGlue = PlaybackTransportControlGlue(getActivity()</span><span class="s0">, </span><span class="s1">playerAdapter)</span>
+        <span class="s1">mTransportControlGlue.host = glueHost</span>
+        <span class="s1">mTransportControlGlue.title = title</span>
+        <span class="s1">mTransportControlGlue.subtitle = description</span>
+        <span class="s1">mTransportControlGlue.playWhenPrepared()</span>
+
+        <span class="s1">playerAdapter.setDataSource(Uri.parse(videoUrl))</span>
+    <span class="s1">}</span>
+
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onPause() {</span>
+        <span class="s0">super</span><span class="s1">.onPause()</span>
+        <span class="s1">mTransportControlGlue.pause()</span>
+    <span class="s1">}</span>
+<span class="s1">}</span></pre>
+</body>
+</html>

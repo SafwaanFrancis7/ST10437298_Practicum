@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity2">
+
+    <TextView
+        android:id="@+id/Heading1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="427dp"
+        android:fontFamily="@font/goblin_one"
+        android:text="The  Perfect  Weather   App"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/StartButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/MyName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="131dp"
+        android:layout_marginTop="103dp"
+        android:layout_marginEnd="108dp"
+        android:fontFamily="@font/goblin_one"
+        android:text="M.Safwaan Francis"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/STnumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/StartButton" />
+
+    <TextView
+        android:id="@+id/STnumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="167dp"
+        android:layout_marginEnd="135dp"
+        android:layout_marginBottom="46dp"
+        android:fontFamily="@font/goblin_one"
+        android:text="ST10437298"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/MyName" />
+
+    <Button
+        android:id="@+id/StartButton"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_backgorund="drawable/round_button"
+        android:layout_marginStart="160dp"
+        android:layout_marginEnd="163dp"
+        android:text="Start"
+        app:layout_constraintBottom_toTopOf="@+id/MyName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Heading1" />
+
+    <Button
+        android:id="@+id/ExitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="161dp"
+        android:layout_marginTop="19dp"
+        android:layout_marginEnd="159dp"
+        android:layout_marginBottom="36dp"
+        android:text="Exit App"
+        app:layout_constraintBottom_toTopOf="@+id/MyName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/StartButton" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

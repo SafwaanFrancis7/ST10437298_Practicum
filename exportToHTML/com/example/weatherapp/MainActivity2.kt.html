@@ -1,0 +1,118 @@
+<html>
+<head>
+<title>MainActivity2.kt</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #808080;}
+.s3 { color: #6a8759;}
+.s4 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MainActivity2.kt</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.example.weatherapp</span>
+
+<span class="s1">import android.annotation.SuppressLint</span>
+<span class="s1">import android.content.Intent</span>
+<span class="s1">import android.os.Bundle</span>
+<span class="s1">import android.os.Parcel</span>
+<span class="s1">import android.os.Parcelable</span>
+
+
+<span class="s1">import android.widget.Button</span>
+<span class="s1">import android.widget.EditText</span>
+<span class="s1">import androidx.appcompat.app.AppCompatActivity</span>
+
+<span class="s0">class </span><span class="s1">MainActivity2 private constructor() : AppCompatActivity()</span><span class="s0">, </span><span class="s1">Parcelable {</span>
+    <span class="s1">private lateinit </span><span class="s0">var </span><span class="s1">averageTemperatureButton: Button</span>
+    <span class="s1">private lateinit </span><span class="s0">var </span><span class="s1">temperatureInput: EditText</span>
+    <span class="s1">private lateinit </span><span class="s0">var </span><span class="s1">resultTextView: EditText</span>
+
+    <span class="s0">class </span><span class="s1">DetailedViewScreen</span>
+    <span class="s0">val </span><span class="s1">intent = Intent(</span><span class="s0">this, </span><span class="s1">DetailedViewScreen::</span><span class="s0">class</span><span class="s1">.java)</span>
+
+    <span class="s2">// Sample weather data for the week</span>
+    <span class="s1">private </span><span class="s0">val </span><span class="s1">weeklyWeather = arrayOf(</span>
+        <span class="s1">Weather(</span><span class="s3">&quot;Monday&quot;</span><span class="s0">, </span><span class="s4">25</span><span class="s1">)</span><span class="s0">,</span>
+        <span class="s1">Weather(</span><span class="s3">&quot;Tuesday&quot;</span><span class="s0">, </span><span class="s4">28</span><span class="s1">)</span><span class="s0">,</span>
+        <span class="s1">Weather(</span><span class="s3">&quot;Wednesday&quot;</span><span class="s0">, </span><span class="s4">30</span><span class="s1">)</span><span class="s0">,</span>
+        <span class="s1">Weather(</span><span class="s3">&quot;Thursday&quot;</span><span class="s0">, </span><span class="s4">26</span><span class="s1">)</span><span class="s0">,</span>
+        <span class="s1">Weather(</span><span class="s3">&quot;Friday&quot;</span><span class="s0">, </span><span class="s4">29</span><span class="s1">)</span><span class="s0">,</span>
+        <span class="s1">Weather(</span><span class="s3">&quot;Saturday&quot;</span><span class="s0">, </span><span class="s4">31</span><span class="s1">)</span><span class="s0">,</span>
+        <span class="s1">Weather(</span><span class="s3">&quot;Sunday&quot;</span><span class="s0">, </span><span class="s4">27</span><span class="s1">)</span>
+    <span class="s1">)</span>
+
+    <span class="s1">constructor(parcel: Parcel) : </span><span class="s0">this</span><span class="s1">() {</span>
+
+    <span class="s1">}</span>
+
+    <span class="s1">@SuppressLint(</span><span class="s3">&quot;MissingInflatedId&quot;</span><span class="s0">, </span><span class="s3">&quot;SetTextI18n&quot;</span><span class="s1">)</span>
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onCreate(savedInstanceState: Bundle?) {</span>
+        <span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span>
+        <span class="s1">setContentView(R.layout.activity_main)</span>
+
+        <span class="s2">// Initialize UI components</span>
+        <span class="s1">averageTemperatureButton = findViewById(R.id.AveTempButton)</span>
+        <span class="s1">temperatureInput = findViewById(R.id.editTextNumber15)</span>
+        <span class="s1">resultTextView = findViewById(R.id.editTextNumber16)</span>
+
+        <span class="s2">// Set click listeners</span>
+        <span class="s1">averageTemperatureButton.setOnClickListener {</span>
+            <span class="s0">val </span><span class="s1">averageTemperature = calculateAverageTemperature()</span>
+            <span class="s3">&quot;Average temperature for the week: </span><span class="s0">$</span><span class="s1">averageTemperature</span><span class="s3">°C&quot;</span><span class="s1">.also { it.also { </span><span class="s3">&quot;resultTextView.text = it&quot; </span><span class="s1">} }</span>
+        <span class="s1">}</span>
+
+        <span class="s2">// This should be the click listener for temperatureInput</span>
+        <span class="s1">temperatureInput.setOnClickListener {</span>
+            <span class="s0">val </span><span class="s1">temperature = temperatureInput.text.toString().toIntOrNull()</span>
+            <span class="s0">if </span><span class="s1">(temperature != </span><span class="s0">null</span><span class="s1">) {</span>
+                <span class="s3">&quot;Entered temperature: </span><span class="s0">$</span><span class="s1">temperature</span><span class="s3">°C&quot;</span><span class="s1">.also { </span><span class="s3">&quot;resultTextView.text = it&quot; </span><span class="s1">}</span>
+            <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                <span class="s3">&quot;Error , you need to enter the correct temperature&quot;</span><span class="s1">.also { </span><span class="s3">&quot;resultTextView.text = it&quot; </span><span class="s1">}</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s1">private </span><span class="s0">fun </span><span class="s1">calculateAverageTemperature(): Int {</span>
+        <span class="s0">val </span><span class="s1">totalTemperature = weeklyWeather.sumBy { it.temperature }</span>
+        <span class="s0">return </span><span class="s1">totalTemperature / weeklyWeather.size</span>
+    <span class="s1">}</span>
+
+    <span class="s1">data </span><span class="s0">class </span><span class="s1">Weather(</span><span class="s0">val </span><span class="s1">day: String</span><span class="s0">, val </span><span class="s1">temperature: Int) {</span>
+        <span class="s1">constructor(day: String</span><span class="s0">, </span><span class="s1">temperature: Int</span><span class="s0">, </span><span class="s1">s: String) : </span><span class="s0">this</span><span class="s1">(day</span><span class="s0">, </span><span class="s1">temperature)</span>
+    <span class="s1">}</span>
+
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">writeToParcel(parcel: Parcel</span><span class="s0">, </span><span class="s1">flags: Int) {</span>
+
+    <span class="s1">}</span>
+
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">describeContents(): Int {</span>
+        <span class="s0">return </span><span class="s4">0</span>
+    <span class="s1">}</span>
+
+    <span class="s1">companion </span><span class="s0">object </span><span class="s1">CREATOR : Parcelable.Creator&lt;MainActivity2&gt; {</span>
+        <span class="s1">override </span><span class="s0">fun </span><span class="s1">createFromParcel(parcel: Parcel): MainActivity2 {</span>
+            <span class="s0">return </span><span class="s1">MainActivity2(parcel)</span>
+        <span class="s1">}</span>
+
+        <span class="s1">override </span><span class="s0">fun </span><span class="s1">newArray(size: Int): Array&lt;MainActivity2?&gt; {</span>
+            <span class="s0">return </span><span class="s1">arrayOfNulls(size)</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s1">private </span><span class="s0">object </span><span class="s1">{</span>
+        <span class="s0">fun </span><span class="s1">Weather(day: String</span><span class="s0">, </span><span class="s1">temperature: Int</span><span class="s0">, </span><span class="s1">s: String) {</span>
+
+        
+    <span class="s1">}</span>
+
+<span class="s1">}</span>
+</pre>
+</body>
+</html>
